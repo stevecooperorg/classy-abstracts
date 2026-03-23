@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classy Abstracts - Color Palette Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .help-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .help-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .controls {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .controls h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            width: 100%;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .output {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .output h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .svg-container {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .svg-container svg {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .download-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #218838;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .color-info {
+            background: #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .color-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .color-swatch {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .color-list {
+            margin-top: 10px;
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .help-button {
+                top: 15px;
+                right: 15px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="help.html" class="help-button">
+                <span>?</span>
+                <span>Help</span>
+            </a>
+            <h1>Classy Abstracts</h1>
+            <p>Generate beautiful abstract art with custom color palettes</p>
+        </div>
+
+        <div class="main-content">
+            <div class="controls">
+                <h2>Configuration</h2>
+                
+                <div class="form-group">
+                    <label for="colorConfig">Color Configuration:</label>
+                    <textarea id="colorConfig" rows="12" placeholder="bg: black; a: red; b: white; c: #FFD700; ab: pink; ac: violet; bc: orange; default: gray">bg: black; a: red; b: white; c: #FFD700; ab: pink; ac: violet; bc: orange; default: gray</textarea>
+                    <div id="colorConfigError" style="color: #b00020; font-size: 13px; margin-top: 6px; min-height: 18px;"></div>
+                    <div class="help-text">
+                        Format: bg: color; letter: color; letter: color<br>
+                        Use color names (red, blue, etc.) or hex codes (#FF0000)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fontSize">Font Size:</label>
+                    <input type="range" id="fontSize" min="10" max="400" value="100">
+                    <span id="fontSizeValue">100px</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="circleDiameter">Circle Diameter:</label>
+                    <input type="range" id="circleDiameter" min="10" max="100" value="70">
+                    <span id="circleDiameterValue">70%</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="canvasSize">Canvas Size:</label>
+                    <select id="canvasSize">
+                        <option value="600x600">600x600</option>
+                        <option value="800x800">800x800</option>
+                        <option value="1000x1000">1000x1000</option>
+                        <option value="1200x800">1200x800</option>
+                        <option value="1600x900">1600x900</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-top: 18px;">
+                    <button class="generate-btn">Generate</button>
+                    <button id="downloadBtn">Download SVG</button>
+                </div>
+
+                <!-- Color search area (palette at the very bottom, no height restriction) -->
+                <div id="colorSearchArea" style="margin-top: 18px;">
+                    <label for="colorSearchBox" style="font-weight: bold;">Search palette colors:</label>
+                    <input type="text" id="colorSearchBox" placeholder="Type to search colors..." style="margin-left: 8px; width: 220px;">
+                    <div style="font-size: 12px; color: #666; margin: 4px 0 8px 0;">Click a color to copy its name to the clipboard.</div>
+                    <div id="colorSearchGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(32px, 1fr)); gap: 2px;"></div>
+                </div>
+            </div>
+
+            <div class="output">
+                <h2>Generated Art</h2>
+                <div class="svg-container" id="svgContainer">
+                    <p style="color: #666;">Click "Generate Abstract Art" to create your artwork</p>
+                </div>
+                <button class="download-btn" onclick="downloadSVG()" style="display: none;" id="downloadBtn">
+                    Download SVG
+                </button>
+
+                <div class="color-info" id="colorInfo" style="display: none;">
+                    <h3>Color Information</h3>
+                    <div id="colorList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/app.js"></script>
+</body>
+</html>

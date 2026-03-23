@@ -1,0 +1,22 @@
+{
+  "name": "classy-abstracts",
+  "version": "1.0.0",
+  "description": "Abstract art color palette generator using Paper.js and Vite.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "publish": "npm run build && wrangler pages deploy dist",
+    "build:help": "pandoc README.md -f markdown -t html -o src/help-body.html && node src/generate-help.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.1.0",
+    "chevrotain": "^11.0.3",
+    "paper": "^0.12.15"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "wrangler": "^4.23.0"
+  }
+}
